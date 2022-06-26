@@ -1,0 +1,54 @@
+account: # 账号相关
+  uin:  # QQ账号
+  password: '' # 密码为空时使用扫码登录
+  encrypt: false  # 是否开启密码加密
+  status: 0      # 在线状态
+  relogin:
+    delay: 3
+    interval: 3
+    max-times: 0
+
+  use-sso-address: true
+
+heartbeat:
+  interval: 5
+
+message:
+  post-format: string
+  ignore-invalid-cqcode: false
+  force-fragment: true
+  fix-url: false
+  proxy-rewrite: ''
+  report-self-message: false
+  remove-reply-at: false
+  extra-reply-data: false
+  skip-mime-scan: false
+
+output:
+  log-level: warn
+  log-aging: 15
+  log-force-new: true
+  log-colorful: true
+  debug: false
+
+default-middlewares: &default
+  access-token: ''
+  filter: ''
+  rate-limit:
+    enabled: false
+    frequency: 1
+    bucket: 1
+
+database:
+  leveldb:
+    enable: true
+  cache:
+    image: data/image.db
+    video: data/video.db
+
+servers:
+  - ws-reverse:
+      universal: ws://127.0.0.1:6660/onebot/v11/ws/
+      reconnect-interval: 3000
+      middlewares:
+        <<: *default
