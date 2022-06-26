@@ -5,6 +5,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=little-paimon
+PKG_VERSION:=1.0.0
+PKG_RELEASE:=1
 
 PKG_MAINTAINER:=CMHopeSunshine
 PKG_LICENSE:=GPL-3.0
@@ -12,23 +14,25 @@ PKG_LICENSE_FILE:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/little-paimon
+define Package/$(PKG_NAME)
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=little-paimon
   URL:=https://github.com/CMHopeSunshine/LittlePaimon
-  DEPENDS:=+gcc +python3-pip +grep
+  PKGARCH:=x86_64
+	DEPENDS:=+python3-nb-cli +go-cqhttp +git-http +ffmpeg
 endef
 
-define Package/little-paimon/description
+define Package/$(PKG_NAME)/description
   Genshin Q group robot based on HoshinoBot, NoneBot2 and go-cqhttp
 endef
 
 define Build/Compile
 endef
 
-define Package/little-paimon/install
+define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) ./root/* $(1)/
 endef
 
-$(eval $(call BuildPackage,little-paimonn))
+$(eval $(call BuildPackage,$(PKG_NAME)))

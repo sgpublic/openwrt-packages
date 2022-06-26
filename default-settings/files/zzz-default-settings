@@ -20,6 +20,7 @@ sed -i "s/root:\/root:\/bin\/ash/root:\/root:\/bin\/bash/g" /etc/passwd
 sed -i '/sgpublic.xyz/d'
 echo '192.168.6.1 opw.sgpublic.xyz' >> /etc/hosts # 路由器首页
 echo '192.168.6.1 qbt.sgpublic.xyz' >> /etc/hosts # qBittorrent Web UI
+echo '192.168.6.1 cqhttp.sgpublic.xyz' >> /etc/hosts # go-cqhttp
 
 # 解决无法使用 ntfs-3g 挂载
 # https://blog.csdn.net/applebomb/article/details/122134067
