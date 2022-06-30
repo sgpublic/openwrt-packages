@@ -31,8 +31,12 @@ define Build/Compile
 endef
 
 define Package/$(PKG_NAME)/install
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(CP) ./root/* $(1)/
+	$(INSTALL_DIR) $(1)/etc/nb-cli
+	$(CP) ./root/etc/nb-cli/* $(1)/etc/nb-cli
+	rm -rf $(1)/etc/nb-cli/LittlePaimon
+	git clone https://github.com/CMHopeSunshine/LittlePaimon.git $(1)/etc/nb-cli/LittlePaimon
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_BIN) ./root/etc/init.d/* $(1)/etc/init.d
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))

@@ -16,12 +16,3 @@ restart() {
 	stop
 	start
 }
-
-instal() {
-	mkdir -p /etc/nb-cli
-	cd /etc/nb-cli
-	nb create
-
-	nb plugin install nonebot-plugin-gocqhttp
-	git clone https://github.com/CMHopeSunshine/LittlePaimon
-}

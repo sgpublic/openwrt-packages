@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# 添加 hosts
+sed -i '/cqhttp.sgpublic.xyz/d'
+echo '192.168.6.1 cqhttp.sgpublic.xyz' >> /etc/hosts # go-cqhttp
+
+exit 0
