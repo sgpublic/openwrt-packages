@@ -19,7 +19,7 @@ define Package/default-settings
   CATEGORY:=LuCI
   TITLE:=LuCI support for Default Settings
   PKGARCH:=all
-  DEPENDS:=+luci-nginx +luci-ssl-nginx
+  DEPENDS:=+luci-nginx +luci-ssl-nginx +bash
 endef
 
 define Package/default-settings/description

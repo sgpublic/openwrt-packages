@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# 添加 hosts
+sed -i '/nonebot.sgpublic.xyz/d'
+echo '192.168.6.1 nonebot.sgpublic.xyz' >> /etc/hosts # go-cqhttp
+
+cd /etc/little-paimon
+nb plugin install nonebot-plugin-gocqhttp
+
+exit 0

@@ -8,55 +8,52 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qt6tools
-PKG_BASE_VERSION:=6.3
-PKG_SUBVERSION:=0
-PKG_VERSION:=$(PKG_BASE_VERSION).$(PKG_SUBVERSION)
-PKG_RELEASE:=0
+PKG_BASE:=6.3
+PKG_BUGFIX:=0
+PKG_VERSION:=$(PKG_BASE).$(PKG_BUGFIX)
+PKG_RELEASE:=$(AUTORELEASE)
 
-PKG_MD5SUM:=458df115bbbbc29f16ffab8035e9efcb
 PKG_SOURCE:=qttools-everywhere-src-$(PKG_VERSION).tar.xz
-PKG_SOURCE_URL:=http://download.qt-project.org/archive/qt/$(PKG_BASE_VERSION)/$(PKG_VERSION)/submodules
+PKG_SOURCE_URL:=https://mirrors.tencent.com/qt/archive/qt/$(PKG_BASE)/$(PKG_VERSION)/submodules/ \
+		  https://mirrors.aliyun.com/qt/archive/qt/$(PKG_BASE)/$(PKG_VERSION)/submodules/ \
+		  http://download.qt-project.org/archive/qt/$(PKG_BASE)/$(PKG_VERSION)/submodules/
+PKG_HASH:=fce94688ea925782a2879347584991f854630daadba6c52aed6d93e33cd0b19c
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/qttools-everywhere-src-$(PKG_VERSION)
 
 PKG_MAINTAINER:=Krypton Lee <jun.k.lee199410@outlook.com>
 PKG_LICENSE:=LGPL-2.1
 PKG_LICENSE_FILES:=COPYING
+PKG_CPE_ID:=cpe:/a:qt:qt
 
-PKG_HOST_ONLY:=1
-HOST_BUILD_DEPENDS:=qt6base/host
+HOST_BUILD_DEPENDS:=qt6base/host libxml2/host
 HOST_BUILD_PARALLEL:=1
+PKG_HOST_ONLY:=1
 
+include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/cmake.mk
-include $(INCLUDE_DIR)/package.mk
 
 define Package/qt6tools
-  SECTION:=libs
-  CATEGORY:=Libraries
+  SECTION:=utils
+  CATEGORY:=Utilities
   SUBMENU:=Qt6
   TITLE:=Qt6 Tools
   URL:=http://qt-project.org
   HIDDEN:=1
 endef
 
-HOST_CONFIGURE_ARGS := \
-        -no-feature-assistant \
-        -no-feature-designer \
-        -no-feature-distancefieldgenerator \
-        -no-feature-kmap2qmap \
-        -no-feature-pixeltool \
-        -no-feature-qdbus \
-        -no-feature-qev \
-        -no-feature-qtattributionsscanner \
-        -no-feature-qtplugininfo \
-        -no-feature-qtdiag
-
-define Host/Configure
-	(cd $(HOST_BUILD_DIR); \
-		$(STAGING_DIR_HOSTPKG)/bin/qt-configure-module . $(HOST_CONFIGURE_ARGS) \
-	)
-endef
+CMAKE_HOST_OPTIONS+= \
+	-DINPUT_assistant=no \
+	-DINPUT_designer=no \
+	-DINPUT_clang=no \
+	-DINPUT_distancefieldgenerator=no \
+	-DINPUT_kmap2qmap=no \
+	-DINPUT_pixeltool=no \
+	-DINPUT_qdbus=no \
+	-DINPUT_qev=no \
+	-DINPUT_qtattributionsscanner=no \
+	-DINPUT_qtplugininfo=no \
+	-DINPUT_qtdiag=no
 
 $(eval $(call BuildPackage,qt6tools))
 $(eval $(call HostBuild))
-

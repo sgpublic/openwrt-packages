@@ -45,8 +45,6 @@ define Package/go-cqhttp/install
 	$(call GoPackage/Package/Install/Bin,$(PKG_INSTALL_DIR))
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/go-cqhttp $(1)/usr/bin/cqhttp
-	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) ./files/zzz-go-cqhttp $(1)/etc/uci-defaults/99-go-cqhttp
 	$(CP) ./root/etc/nginx/* $(1)/etc/nginx
 	$(CP) ./root/etc/cqhttp.yml $(1)/etc/cqhttp.yml
 	$(INSTALL_DIR) $(1)/etc/init.d

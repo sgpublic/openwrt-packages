@@ -4,15 +4,28 @@ START=100
 STOP=14
 
 start() {
-	/usr/bin/cqhttp -c /etc/cqhttp.yml -w /etc/cqhttp.d > /dev/null 2>&1 & echo "cqhttp is started"
+	cd /etc/nb-cli/LittlePaimon
+	nb start > /dev/null 2>&1 & echo "cqhttp is started"
 }
 
 stop() {
-	killall cqhttp
+	killall nb
 	echo "cqhttp is stoped"
 }
 
 restart() {
 	stop
 	start
+}
+
+update() {
+	stop
+	cd /etc/nb-cli/LittlePaimon
+	git pull
+	start
+}
+
+install() {
+	cd /etc/nb-cli/LittlePaimon
+	nb plugin install nonebot-plugin-gocqhttp
 }

@@ -19,7 +19,6 @@ define Package/$(PKG_NAME)
   CATEGORY:=Utilities
   TITLE:=little-paimon
   URL:=https://github.com/CMHopeSunshine/LittlePaimon
-  PKGARCH:=x86_64
 	DEPENDS:=+python3-nb-cli +go-cqhttp +git-http +ffmpeg
 endef
 
@@ -33,6 +32,8 @@ endef
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/nb-cli
 	$(CP) ./root/etc/nb-cli/* $(1)/etc/nb-cli
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_BIN) ./files/zzz-little-paimon $(1)/etc/uci-defaults/99-little-paimon
 	rm -rf $(1)/etc/nb-cli/LittlePaimon
 	git clone https://github.com/CMHopeSunshine/LittlePaimon.git $(1)/etc/nb-cli/LittlePaimon
 	$(INSTALL_DIR) $(1)/etc/init.d
