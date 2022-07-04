@@ -32,6 +32,8 @@ endef
 define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/etc/nb-cli
 	$(CP) ./root/etc/nb-cli/* $(1)/etc/nb-cli
+	$(INSTALL_DIR) $(1)/etc/nginx
+	$(CP) ./root/etc/nginx/* $(1)/etc/nginx
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) ./files/zzz-little-paimon $(1)/etc/uci-defaults/99-little-paimon
 	rm -rf $(1)/etc/nb-cli/LittlePaimon
