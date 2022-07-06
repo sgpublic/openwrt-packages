@@ -22,7 +22,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/onedrive
   SECTION:=net
   CATEGORY:=Network
-  SUBMENU:=Microsoft
+  SUBMENU:=Cloud Manager
   TITLE:=OneDrive Client for Linux
   URL:=https://github.com/abraunegg/onedrive
 	DEPENDS:=+libstdcpp +libc +libcurl +libsqlite3 +librt

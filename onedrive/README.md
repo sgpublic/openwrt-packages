@@ -1,6 +1,8 @@
 # onedrive
 
-这是一个免费的 Microsoft OneDrive 客户端，支持 OneDrive Personal、OneDrive for Business、OneDrive for Office365 和 SharePoint，详情请看：[abraunegg/onedrive: #1 Free OneDrive Client for Linux (github.com)](https://github.com/abraunegg/onedrive)。
+> Network => Cloud Manager => onedrive
+
+这是一个 Linux 平台的、免费的 Microsoft OneDrive 客户端，支持 OneDrive Personal、OneDrive for Business、OneDrive for Office365 和 SharePoint，详情请看：[abraunegg/onedrive: #1 Free OneDrive Client for Linux (github.com)](https://github.com/abraunegg/onedrive)。
 
 _**Note：此包 Makefile 尚未完成，请勿使用！**_
 

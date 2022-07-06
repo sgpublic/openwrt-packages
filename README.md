@@ -4,12 +4,17 @@
 
 + default-settings
 + go-cqhttp
++ go-filebrowser
 + little-paimon
 + python3-nb-cli
 + onedrive
 + qbittorrent-enhanced-edition
 + qt6
-+ luci-app-filebrowser
++ frp
+
+## 信息
+
++ 已测试：OpenWrt 22.03.03-rc4 x86_64
 
 ## 使用
 

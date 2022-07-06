@@ -1,5 +1,9 @@
 # little-paimon
 
+> Network => Tencent => little-paimon
+
+**PS：此包虽然归类于 Tencent，但与 Tencent 及其所属公司无任何关联。**
+
 这是一个基于 [NoneBot2](https://github.com/nonebot/nonebot2) 和 [go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 的原神 QQ 群机器人，详情请看：[CMHopeSunshine/LittlePaimon: 小派蒙！原神qq群机器人，基于NoneBot2的UID查询、抽卡导出分析、模拟抽卡、实时便签、札记等多功能小助手。 (github.com)](https://github.com/CMHopeSunshine/LittlePaimon)
 
 您可以通过 `/etc/init.d/paimon start` 启动。

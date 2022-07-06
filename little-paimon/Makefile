@@ -15,8 +15,9 @@ PKG_LICENSE_FILE:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
-  SECTION:=utils
-  CATEGORY:=Utilities
+  SECTION:=net
+  CATEGORY:=Network
+  SUBMENU:=Tencent
   TITLE:=little-paimon
   URL:=https://github.com/CMHopeSunshine/LittlePaimon
 	DEPENDS:=+python3-nb-cli +go-cqhttp +git-http +ffmpeg

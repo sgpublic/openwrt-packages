@@ -28,10 +28,16 @@ define Package/python3-$(PKG_NAME)
   SUBMENU:=Python
   TITLE:=Command Line Tools for NoneBot2 (nb-cli)
   URL:=https://github.com/nonebot/nb-cli
+	DEPENDS:=+python3
 endef
 
 define Package/python3-$(PKG_NAME)/description
   Command Line Tools for NoneBot2.
+endef
+
+define Py3Package/python3-$(PKG_NAME)/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/nb $(1)/usr/bin
 endef
 
 $(eval $(call Py3Package,python3-$(PKG_NAME)))
