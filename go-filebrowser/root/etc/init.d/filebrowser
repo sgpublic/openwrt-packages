@@ -1,0 +1,18 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=15
+
+start() {
+	/usr/bin/filebrowser -c /etc/filebrowser.d -d /etc/filebrowser.db > /dev/null 2>&1 & echo "cqhttp is started"
+}
+
+stop() {
+	killall filebrowser
+	echo "filebrowser is stoped"
+}
+
+restart() {
+	stop
+	start
+}
