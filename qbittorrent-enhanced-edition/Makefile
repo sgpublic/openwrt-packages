@@ -33,18 +33,18 @@ define Package/qbittorrent-enhanced-edition
   SUBMENU:=BitTorrent
   TITLE:=qBittorrent Enhanced Edition
   URL:=https://github.com/c0re100/qBittorrent-Enhanced-Edition
-  DEPENDS:=+libQt6Core +libQt6Network +libQt6Sql +libQt6Xml +libtorrent-rasterbar +qt6-plugin-libqopensslbackend +qt6-plugin-libqsqlite
+  DEPENDS:=+libQt6Core +libQt6Network +libQt6Sql +libQt6Xml +libtorrent-rasterbar +qt6-plugin-libqopensslbackend +qt6-plugin-libqsqlite +boost
 endef
 
 define Package/qbittorrent-enhanced-edition/description
   qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.
 endef
 
-CMAKE_OPTIONS += \
+CMAKE_OPTIONS+= \
 	-DGUI=OFF \
-	-DSTACKTRACE=OFF \
 	-DQT6=ON \
-	-DVERBOSE_CONFIGURE=ON \
+	-DSTACKTRACE=OFF \
+	-DWEBUI=ON \
 	-DQT_ADDITIONAL_PACKAGES_PREFIX_PATH=$(STAGING_DIR_HOSTPKG)
 
 define Package/qbittorrent-enhanced-edition/install
