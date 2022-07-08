@@ -3,10 +3,7 @@
 此 package 包含：
 
 + default-settings
-+ go-cqhttp
 + go-filebrowser
-+ little-paimon
-+ python3-nb-cli
 + onedrive
 + qbittorrent-enhanced-edition
 + qt6
