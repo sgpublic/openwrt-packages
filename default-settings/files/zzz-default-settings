@@ -26,6 +26,11 @@ if [ -e /usr/bin/ntfs-3g ]; then
   ln -s /usr/bin/ntfs-3g /sbin/mount.ntfs
 fi
 
+# 解决 nginx -s reload 找不到 nginx.conf
+if [ -e /etc/nginx/uci.conf ]; then
+  ln -s /etc/nginx/uci.conf /etc/nginx/nginx.conf
+fi
+
 # 减少 dnsmasq 的 log 输出
 sed -i '/log-facility/d' /etc/dnsmasq.conf
 echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
