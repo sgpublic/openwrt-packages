@@ -33,6 +33,8 @@ define Package/default-settings/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) ./files/zzz-default-settings $(1)/etc/uci-defaults/99-default-settings
 	$(CP) ./root/etc/* $(1)/etc
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) ./root/usr/bin/* $(1)/usr/bin
 endef
 
 $(eval $(call BuildPackage,default-settings))

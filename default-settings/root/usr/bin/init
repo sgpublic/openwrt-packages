@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+if [ -z "$1" ]; then
+  echo -e "Usage:\n  init [service] [action]\n  e.g. init nginx restart    this command will execute \"/etc/init.d/nginx restart\""
+  exit 0
+fi
+
+if [ ! -f "/etc/init.d/$1" ]; then
+  echo "unknown service: $1"
+  exit -1
+fi
+
+if [ -z "$2" ]; then
+  echo "empty action!"
+  exit -2
+fi
+
+echo "do command: /etc/init.d/$1 $2"
+/etc/init.d/$1 $2
