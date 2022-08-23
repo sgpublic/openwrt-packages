@@ -4,7 +4,7 @@ START=99
 STOP=15
 
 start() {
-	/usr/bin/filebrowser -c /etc/filebrowser.d -d /etc/filebrowser.db > /dev/null 2>&1 & echo "cqhttp is started"
+	/usr/bin/filebrowser -d /etc/filebrowser.db > /dev/null 2>&1 & echo "filebrowser is started"
 }
 
 stop() {
