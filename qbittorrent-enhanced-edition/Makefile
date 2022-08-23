@@ -1,8 +1,7 @@
 #
-# Copyright (C) 2020 Krypton Lee <jun.k.lee199410@outlook.com>
+# Copyright (C) 2017-2020
 #
 # This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
 #
 
 include $(TOPDIR)/rules.mk
@@ -15,39 +14,78 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/c0re100/qBittorrent-Enhanced-Edition/tar.gz/release-$(PKG_VERSION)?
 PKG_SOURCE_DATE:=2022-06-01
 PKG_HASH:=67f741ad176a487ad9e5d910f9782838082eada623ca84c67774bb859f601bf2
+
 PKG_BUILD_DIR:=$(BUILD_DIR)/qBittorrent-Enhanced-Edition-release-$(PKG_VERSION)
 
-PKG_MAINTAINER:=c0re100
-PKG_LICENSE:=GPL-2.0
-PKG_LICENSE_FILE:=COPYING
+PKG_LICENSE:=GPL-2.0+
+PKG_LICENSE_FILES:=COPYING
+PKG_CPE_ID:=cpe:/a:qbittorrent:qbittorrent
 
-PKG_BUILD_DEPENDS:=qt6tools/host
+PKG_BUILD_DEPENDS:=qttools
+
 PKG_BUILD_PARALLEL:=1
+PKG_INSTALL:=1
+PKG_USE_MIPS16:=0
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
-define Package/qbittorrent-enhanced-edition
-  SECTION:=net
-  CATEGORY:=Network
-  SUBMENU:=BitTorrent
-  TITLE:=qBittorrent Enhanced Edition
-  URL:=https://github.com/c0re100/qBittorrent-Enhanced-Edition
-  DEPENDS:=+libQt6Core +libQt6Network +libQt6Sql +libQt6Xml +libtorrent-rasterbar +qt6-plugin-libqopensslbackend +qt6-plugin-libqsqlite +boost
+define Package/$(PKG_NAME)
+	SECTION:=net
+	CATEGORY:=Network
+	SUBMENU:=BitTorrent
+	DEPENDS:=+libgcc +libstdcpp \
+		++libtorrent-rasterbar \
+		+libopenssl \
+		+qt5-core \
+		+qt5-network \
+		+qt5-sql \
+		+qt5-xml \
+		+zlib \
+		+boost
+	TITLE:=bittorrent client programmed in C++ / Qt
+	URL:=https://www.qbittorrent.org/
+	PROVIDES:=qBittorrent
 endef
 
-define Package/qbittorrent-enhanced-edition/description
-  qBittorrent is a bittorrent client programmed in C++ / Qt that uses libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.
+define Package/$(PKG_NAME)/description
+  qBittorrent is a bittorrent client programmed in C++ / Qt that uses
+  libtorrent (sometimes called libtorrent-rasterbar) by Arvid Norberg.
+  It aims to be a good alternative to all other bittorrent clients out
+  there. qBittorrent is fast, stable and provides unicode support as
+  well as many features.
 endef
 
-CMAKE_OPTIONS+= \
-	-DGUI=OFF \
-	-DQT6=ON \
+CMAKE_OPTIONS += \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DQT6=OFF \
 	-DSTACKTRACE=OFF \
 	-DWEBUI=ON \
-	-DQT_ADDITIONAL_PACKAGES_PREFIX_PATH=$(STAGING_DIR_HOSTPKG)
+	-DGUI=OFF \
+	-DVERBOSE_CONFIGURE=ON
 
-define Package/qbittorrent-enhanced-edition/install
+# The pcre2 is compiled with support for mips16
+ifdef CONFIG_USE_MIPS16
+  TARGET_CFLAGS += -minterlink-mips16
+endif
+
+# Support the glibc
+ifdef CONFIG_USE_GLIBC
+  TARGET_LDFLAGS += -ldl -lrt -lpthread
+endif
+
+TARGET_CFLAGS += -std=c++17 -ffunction-sections -fdata-sections -flto
+TARGET_LDFLAGS += -Wl,--gc-sections,--as-needed -flto
+
+# The pentium-mmx with lto will build failed on qt6
+ifeq ($(ARCH),i386)
+  ifneq ($(findstring pentium-mmx,$(CONFIG_CPU_TYPE)),)
+    TARGET_CFLAGS := $(filter-out -flto,$(TARGET_CFLAGS))
+    TARGET_LDFLAGS := $(filter-out -flto,$(TARGET_LDFLAGS))
+  endif
+endif
+
+define Package/$(PKG_NAME)/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/qbittorrent-nox $(1)/usr/bin/qbtee
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
@@ -59,4 +97,4 @@ define Package/qbittorrent-enhanced-edition/install
 	$(INSTALL_DIR) $(1)/root/Downloads
 endef
 
-$(eval $(call BuildPackage,qbittorrent-enhanced-edition))
+$(eval $(call BuildPackage,$(PKG_NAME)))
