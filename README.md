@@ -4,14 +4,14 @@
 
 + default-settings
 + go-filebrowser
-+ onedrive
-+ qbittorrent-enhanced-edition
++ onedrive (暂不可用)
++ qbittorrent-enhanced-edition (暂不可用)
 + qt6
 + frp
 
 ## 信息
 
-+ 已测试：OpenWrt 22.03.03-rc5 x86_64
++ 已测试：OpenWrt 22.03.2 x86_64
 
 ## 使用
 
