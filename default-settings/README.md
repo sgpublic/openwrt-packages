@@ -6,7 +6,7 @@
 + 设置时区为 CST-8、Asia/Shanghai
 + 修改默认密码为 `password`
 + 替换 ash 为 bash
-+ 添加 hosts 将域名 `opw.sgpublic.xyz` 指向 `192.168.6.1`，您可以通过 `opw.sgpublic.xyz` 访问路由主页
++ 可设置使用指定域名访问管理页，且可选是否强制跳转 https
 + 若您的配置中包含了 `ntfs-3g`，则修复无法使用 ntfs-3g 挂载的问题
 + 减少 dnsmasq 的 log 输出
 + 删除缓存

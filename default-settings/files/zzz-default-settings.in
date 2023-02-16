@@ -17,8 +17,7 @@ sed -i 'N;0 i root:$1$vd2nofEE$iszoiPDR5BhLLr5qGkOoL1:19094:0:99999:7:::' /etc/s
 sed -i "s/root:\/root:\/bin\/ash/root:\/root:\/bin\/bash/g" /etc/passwd
 
 # 添加 hosts
-sed -i '/opw.sgpublic.xyz/d'
-echo '192.168.6.1 opw.sgpublic.xyz' >> /etc/hosts # 路由器首页
+%use_host%echo '%ip_address% %host_name%' >> /etc/hosts # 路由器首页
 
 # 解决无法使用 ntfs-3g 挂载
 # https://blog.csdn.net/applebomb/article/details/122134067

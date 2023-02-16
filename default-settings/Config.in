@@ -1,0 +1,27 @@
+menu "Configuration"
+	depends on PACKAGE_default-settings
+
+config DEFAULT_SETTINGS_USE_IP
+	bool "Use ip to access the admin page."
+	default y
+
+config DEFAULT_SETTINGS_USE_DOMAIN
+	bool "Use domain to access the admin page."
+	default n
+
+	config DEFAULT_SETTINGS_DOMAIN
+		depends on DEFAULT_SETTINGS_USE_DOMAIN
+		string "Domain to use"
+		default "admin.openwrt.org"
+
+	config DEFAULT_SETTINGS_DOMAIN_USE_SSL
+		depends on DEFAULT_SETTINGS_USE_DOMAIN
+		bool "Domain use ssl"
+		default n
+
+    	config DEFAULT_SETTINGS_DOMAIN_FORCE_SSL
+    		depends on DEFAULT_SETTINGS_DOMAIN_USE_SSL
+    		bool "Domain force redirect to https"
+    		default y
+
+endmenu
