@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# 添加 hosts
-sed -i '/qbt.sgpublic.xyz/d'
-echo '192.168.6.1 qbt.sgpublic.xyz' >> /etc/hosts # qBittorrent Web UI
-
-exit 0
