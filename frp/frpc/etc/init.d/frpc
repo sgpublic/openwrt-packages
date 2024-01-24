@@ -4,7 +4,7 @@ START=99
 STOP=15
 
 start() {
-	/usr/bin/frpc -c /etc/frpc/frpc.yaml > /dev/null 2>&1 & echo "frpc is started"
+	/usr/bin/frpc -c /etc/frp/frpc.yaml > /dev/null 2>&1 & echo "frpc is started"
 }
 
 stop() {
