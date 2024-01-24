@@ -1,0 +1,13 @@
+hook:
+  path: "/ohttps" # 监听路径，默认为 /ohttps
+  listen: "0.0.0.0:8081" # 监听 IP 和端口，默认为 0.0.0.0:8081
+config:
+  key: "9...c" # ohttps.com 生成的回调令牌
+  logging:
+    path: "/var/log/ohttps/" # 日志输出目录，默认为 ./log
+    aging: 259200 # 日志保留期限，单位：秒，默认为 259200
+  nginx-reload-command: "/etc/init.d/nginx restart" # 设置 nginx 重新加载命令，默认为 nginx -s reload
+targets:
+  - domain: "*.example1.com" # 证书域名
+    cert-key: "/etc/nginx/cert/example1.com.key" # 私钥证书保存路径
+    fullchain-certs: "/etc/nginx/cert/example1.com.pem" # 证书文件（包含证书和中间证书）保存路径
