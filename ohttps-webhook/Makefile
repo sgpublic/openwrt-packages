@@ -21,7 +21,7 @@ PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
 
 GO_PKG:=github.com/sgpublic/OhttpsWebhook
-GO_PKG_BUILD_PKG:=$(GO_PKG)/cmd/frpc
+GO_PKG_BUILD_PKG:=$(GO_PKG)
 GO_PKG_LDFLAGS_X:= \
 	$(GO_PKG).build=OpenWrt \
 	$(GO_PKG).version=$(PKG_VERSION)
@@ -43,7 +43,7 @@ endef
 define Package/ohttps-webhook/install
 	$(call GoPackage/Package/Install/Bin,$(PKG_INSTALL_DIR))
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin/ohttps
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/OhttpsWebhook $(1)/usr/bin/ohttps
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./root/etc/init.d/* $(1)/etc/init.d
 	$(CP) ./root/ohttps/ohttps.yaml $(1)/etc/ohttps/ohttps.yaml
