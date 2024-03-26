@@ -31,7 +31,16 @@ define Package/default-settings/config
 endef
 
 define Build/Compile
-	bash ./compile.sh $(CONFIG_TARGET_PREINIT_IP) $(CONFIG_DEFAULT_SETTINGS_USE_IP) $(CONFIG_DEFAULT_SETTINGS_USE_DOMAIN) $(CONFIG_DEFAULT_SETTINGS_DOMAIN) $(CONFIG_DEFAULT_SETTINGS_DOMAIN_USE_SSL) $(CONFIG_DEFAULT_SETTINGS_DOMAIN_FORCE_SSL)
+	bash ./compile.sh \
+		$(CONFIG_TARGET_PREINIT_IP) \
+		$(CONFIG_DEFAULT_SETTINGS_USE_IP) \
+		$(CONFIG_DEFAULT_SETTINGS_USE_DOMAIN) \
+		$(CONFIG_DEFAULT_SETTINGS_DOMAIN) \
+		$(CONFIG_DEFAULT_SETTINGS_DOMAIN_USE_SSL) \
+		$(CONFIG_DEFAULT_SETTINGS_DOMAIN_FORCE_SSL) \
+		$(CONFIG_DEFAULT_SETTINGS_USE_BACKUP) \
+		$(CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL) \
+		$(CONFIG_DEFAULT_SETTINGS_USE_BACKUP_LOCAL)
 endef
 
 define Package/default-settings/install
@@ -41,6 +50,7 @@ define Package/default-settings/install
 	$(CP) ./root/etc/nginx/conf.d/www.conf.out $(1)/etc/nginx/conf.d/www.conf
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) ./root/usr/bin/init $(1)/usr/bin/
+	[ -d "./root/approot" ] && $(CP) ./root/approot $(1)/approot
 endef
 
 $(eval $(call BuildPackage,default-settings))

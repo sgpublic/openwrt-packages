@@ -19,9 +19,23 @@ config DEFAULT_SETTINGS_USE_DOMAIN
 		bool "Domain use ssl"
 		default n
 
-    	config DEFAULT_SETTINGS_DOMAIN_FORCE_SSL
-    		depends on DEFAULT_SETTINGS_DOMAIN_USE_SSL
-    		bool "Domain force redirect to https"
-    		default y
+		config DEFAULT_SETTINGS_DOMAIN_FORCE_SSL
+			depends on DEFAULT_SETTINGS_DOMAIN_USE_SSL
+			bool "Domain force redirect to https"
+			default y
+
+config DEFAULT_SETTINGS_USE_BACKUP
+	bool "Use a backup files."
+	default n
+
+	config DEFAULT_SETTINGS_USE_BACKUP_REPO_URL
+		depends on DEFAULT_SETTINGS_USE_BACKUP
+		string "Repository to use."
+		default ""
+
+	config DEFAULT_SETTINGS_USE_BACKUP_LOCAL
+		depends on DEFAULT_SETTINGS_USE_BACKUP
+		string "Local file to use."
+		default ""
 
 endmenu
