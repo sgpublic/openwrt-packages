@@ -30,8 +30,13 @@ config DEFAULT_SETTINGS_USE_BACKUP
 
 	config DEFAULT_SETTINGS_USE_BACKUP_REPO_URL
 		depends on DEFAULT_SETTINGS_USE_BACKUP
-		string "Repository to use."
+		string "Repository url to use."
 		default ""
+
+	config DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH
+		depends on DEFAULT_SETTINGS_USE_BACKUP
+		string "Repository branch to use."
+		default "master"
 
 	config DEFAULT_SETTINGS_USE_BACKUP_LOCAL
 		depends on DEFAULT_SETTINGS_USE_BACKUP
