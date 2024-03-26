@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# 添加 hosts
-sed -i '/pan.sgpublic.xyz/d'
-echo '192.168.6.1 pan.sgpublic.xyz' >> /etc/hosts # go-filebrowser
-
-filebrowser config init -d /etc/filebrowser.db -p 8081 -r /
-
-exit 0
