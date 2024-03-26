@@ -1,0 +1,79 @@
+name: Scan Frp Version
+# code from https://github.com/kuoruan/openwrt-frp
+on:
+  schedule:
+    - cron: "0 1 */3 * *" # every day at UTC 1:00AM
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Check Version
+    runs-on: ubuntu-latest
+    if: ${{ github.repository_owner }} == "sgpublic"
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.TOKEN }}
+
+      - name: Get Latest Version
+        id: get_version
+        uses: actions/github-script@v3
+        with:
+          github-token: ${{ secrets.TOKEN }}
+          result-encoding: string
+          script: |
+            const { data } = await github.repos.getLatestRelease({
+              owner: "fatedier",
+              repo: "frp"
+            });
+            if (data && data.tag_name) {
+              return data.tag_name.replace(/^v/, "")
+            }
+            return "";
+
+      - name: Compare Version
+        id: compare_version
+        if: steps.get_version.outputs.result != ''
+        run: |
+          latest_version="${{ steps.get_version.outputs.result }}"
+          current_version="$(grep '^PKG_VERSION:' Makefile 2>/dev/null | cut -d'=' -f2)"
+
+          if [ -n "$current_version" ] && \
+            [ "$current_version" != "$latest_version" ] ; then
+            source_hash="$(curl -sL \
+              "https://codeload.github.com/fatedier/frp/tar.gz/v$latest_version" | \
+              sha256sum | cut -d' ' -f1)"
+            echo "::set-output name=version::$latest_version"
+            echo "::set-output name=source_hash::$source_hash"
+          else
+            echo "::set-output name=version::"
+            echo "::set-output name=source_hash::"
+          fi
+
+      - name: Commit New Version
+        if: steps.compare_version.outputs.version != '' && steps.compare_version.outputs.source_hash != ''
+        run: |
+          version="${{ steps.compare_version.outputs.version }}"
+          source_hash="${{ steps.compare_version.outputs.source_hash }}"
+          release_branch="releases/v${version}-1"
+
+          git config user.name "Madray Haven"
+          git config user.email "sgpublic2002@gmail.com"
+
+          if [ "$(git ls-remote origin "$release_branch" | wc -l)" -gt "0" ] ; then
+            # delete existing release branch
+            git push origin :$release_branch 2>/dev/null || true
+          fi
+
+          git checkout -b "$release_branch"
+
+          sed -i \
+            -e "s/^PKG_VERSION.*/PKG_VERSION:=${version}/" \
+            -e "s/^PKG_RELEASE.*/PKG_RELEASE:=1/" \
+            -e "s/^PKG_HASH.*/PKG_HASH:=${source_hash}/" \
+            frp/Makefile
+
+          git add -f frp/Makefile
+          git commit -m "chore: bump frp to v${version}-1"
+          git push -u origin "$release_branch"
