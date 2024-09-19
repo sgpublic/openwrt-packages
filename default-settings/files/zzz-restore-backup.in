@@ -7,6 +7,5 @@ if [ -z "$GIT_CLONE_CONFIG" ]; then
   exit 0
 fi
 
-git config --global http.postBuffer 524288000
 git clone $GIT_CLONE_CONFIG --depth=0 /approot
 exit 0
