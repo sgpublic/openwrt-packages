@@ -38,9 +38,4 @@ config DEFAULT_SETTINGS_USE_BACKUP
 		string "Repository branch to use."
 		default "master"
 
-	config DEFAULT_SETTINGS_USE_BACKUP_LOCAL
-		depends on DEFAULT_SETTINGS_USE_BACKUP
-		string "Local file to use."
-		default ""
-
 endmenu

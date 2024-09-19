@@ -7,21 +7,13 @@ for arg in "$@"; do
     eval "$arg"
 done
 
-echo -e "CONFIG_TARGET_PREINIT_IP: $CONFIG_TARGET_PREINIT_IP"
-echo -e "CONFIG_DEFAULT_SETTINGS_USE_IP: $CONFIG_DEFAULT_SETTINGS_USE_IP"
-echo -e "CONFIG_DEFAULT_SETTINGS_USE_DOMAIN: $CONFIG_DEFAULT_SETTINGS_USE_DOMAIN"
-echo -e "CONFIG_DEFAULT_SETTINGS_DOMAIN: $CONFIG_DEFAULT_SETTINGS_DOMAIN"
-echo -e "CONFIG_DEFAULT_SETTINGS_DOMAIN_USE_SSL: $CONFIG_DEFAULT_SETTINGS_DOMAIN_USE_SSL"
-echo -e "CONFIG_DEFAULT_SETTINGS_DOMAIN_FORCE_SSL: $CONFIG_DEFAULT_SETTINGS_DOMAIN_FORCE_SSL"
-echo -e "CONFIG_DEFAULT_SETTINGS_USE_BACKUP: $CONFIG_DEFAULT_SETTINGS_USE_BACKUP"
-# echo -e "CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL: $CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL"
-echo -e "CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH: $CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH"
-echo -e "CONFIG_DEFAULT_SETTINGS_USE_BACKUP_LOCAL: $CONFIG_DEFAULT_SETTINGS_USE_BACKUP_LOCAL"
+rm -f ./files/zzz-default-settings.out
+cp ./files/zzz-default-settings.in ./files/zzz-default-settings.out
+
+rm -f ./files/zzz-restore-backup.out
+cp ./files/zzz-restore-backup.in ./files/zzz-restore-backup.out
 
 rm -f ./root/etc/nginx/conf.d/www.conf.out
-rm -f ./files/zzz-default-settings.out
-
-cp ./files/zzz-default-settings.in ./files/zzz-default-settings.out
 cp ./root/etc/nginx/conf.d/www.conf.in ./root/etc/nginx/conf.d/www.conf.out
 
 sed -i "s/%ip_address%/$CONFIG_TARGET_PREINIT_IP/g" ./files/zzz-default-settings.out
@@ -49,14 +41,15 @@ else
   sed -i 's/%use_host%/\# /g' ./files/zzz-default-settings.out
 fi
 
-rm -rf ./root/approot
+GIT_CLONE_CONFIG=
 if [[ "$CONFIG_DEFAULT_SETTINGS_USE_BACKUP" == "y" ]]; then
-  if [[ ! -z "$CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL" ]]; then
-    git clone "$CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL" -b "$CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH" --depth=1 ./root/approot
-  elif [[  ! -z "$CONFIG_DEFAULT_SETTINGS_USE_BACKUP_LOCAL"  ]]; then
-    cp -a "$CONFIG_DEFAULT_SETTINGS_USE_BACKUP_LOCAL" ./root/approot
-  else
-    echo -e "You had configure DEFAULT_SETTINGS_USE_BACKUP, but neither CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL nor CONFIG_DEFAULT_SETTINGS_USE_BACKUP_LOCAL are configred!"
+  if [[ -z "$CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL" ]]; then
+    echo -e "You had configure DEFAULT_SETTINGS_USE_BACKUP, but CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL didn't configred!"
     exit -1
   fi
+  GIT_CLONE_CONFIG=$CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL
+  if [[ ! -z "$CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH" ]]; then
+    GIT_CLONE_CONFIG=$GIT_CLONE_CONFIG -b=$CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH
+  fi
 fi
+sed -i "s/%git_clone_config%/$GIT_CLONE_CONFIG/g" ./files/zzz-restore-backup.out

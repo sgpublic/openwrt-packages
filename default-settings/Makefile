@@ -40,18 +40,17 @@ define Build/Compile
 		CONFIG_DEFAULT_SETTINGS_DOMAIN_FORCE_SSL=$(CONFIG_DEFAULT_SETTINGS_DOMAIN_FORCE_SSL) \
 		CONFIG_DEFAULT_SETTINGS_USE_BACKUP=$(CONFIG_DEFAULT_SETTINGS_USE_BACKUP) \
 		CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL=$(CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_URL) \
-		CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH=$(CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH) \
-		CONFIG_DEFAULT_SETTINGS_USE_BACKUP_LOCAL=$(CONFIG_DEFAULT_SETTINGS_USE_BACKUP_LOCAL)
+		CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH=$(CONFIG_DEFAULT_SETTINGS_USE_BACKUP_REPO_BRANCH)
 endef
 
 define Package/default-settings/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
-	$(INSTALL_BIN) ./files/zzz-default-settings.out $(1)/etc/uci-defaults/99-default-settings
+	$(INSTALL_BIN) ./files/zzz-default-settings.out $(1)/etc/uci-defaults/98-default-settings
+	$(INSTALL_BIN) ./files/zzz-restore-backup.out $(1)/etc/uci-defaults/99-restore-backup
 	$(INSTALL_DIR) $(1)/etc/nginx/conf.d
 	$(CP) ./root/etc/nginx/conf.d/www.conf.out $(1)/etc/nginx/conf.d/www.conf
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) ./root/usr/bin/init $(1)/usr/bin/
-	[ -d "./root/approot" ] && $(CP) ./root/approot $(1)/
 endef
 
 $(eval $(call BuildPackage,default-settings))

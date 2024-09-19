@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # 设置 IP
 uci set network.lan.ipaddr='%ip_address%'
@@ -32,11 +32,6 @@ fi
 # 解决 nginx -s reload 找不到 nginx.conf
 if [ -e /etc/nginx/uci.conf ]; then
   ln -s /etc/nginx/uci.conf /etc/nginx/nginx.conf
-fi
-
-# 安装备份
-if [ -e /approot/install.sh ]; then
-  bash /approot/install.sh
 fi
 
 # 减少 dnsmasq 的 log 输出
